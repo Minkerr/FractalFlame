@@ -19,11 +19,11 @@ public class ConcurrentRender implements Render {
     }
 
     private List<TransformationCoefficientSet> generateTransformations(int numberOfTransformations) {
-        List<TransformationCoefficientSet> coeff = new ArrayList<>();
+        List<TransformationCoefficientSet> coefficient = new ArrayList<>();
         for (int i = 0; i < numberOfTransformations; i++) {
-            coeff.add(new TransformationCoefficientSet());
+            coefficient.add(new TransformationCoefficientSet());
         }
-        return coeff;
+        return coefficient;
     }
 
     private FractalImage initCanvas(int width, int height) {
@@ -40,8 +40,8 @@ public class ConcurrentRender implements Render {
             List<Transformation> variations,
             int width,
             int height,
-            int samples,
-            int iterPerSample,
+            int numberOfPoints,
+            int transformationsForPoint,
             int numberOfTransformations,
             int symmetry,
             boolean correction
@@ -56,9 +56,9 @@ public class ConcurrentRender implements Render {
         CountDownLatch countDownLatch = new CountDownLatch(nThreads);
 
         Runnable task = () -> {
-            for (int num = 0; num < samples / nThreads; ++num) {
+            for (int num = 0; num < numberOfPoints / nThreads; ++num) {
                 Point pw = new Point(random(xMin, xMax), random(yMin, yMax));
-                for (int step = 0; step < iterPerSample; ++step) {
+                for (int step = 0; step < transformationsForPoint; ++step) {
                     int i = random(0, numberOfTransformations);
                     double x = coeff.get(i).a() * pw.x() + coeff.get(i).b() * pw.y() + coeff.get(i).c();
                     double y = coeff.get(i).d() * pw.x() + coeff.get(i).e() * pw.y() + coeff.get(i).f();
@@ -66,10 +66,10 @@ public class ConcurrentRender implements Render {
                     Transformation variation = variations.get(random(0, variations.size()));
                     pw = variation.apply(new Point(x, y));
 
-                    double theta2 = 0.0;
-                    for (int s = 0; s < symmetry; theta2 += Math.PI * 2 / symmetry, ++s) {
+                    double theta = 0.0;
+                    for (int s = 0; s < symmetry; theta += Math.PI * 2 / symmetry, ++s) {
                         if (symmetry > 1) {
-                            var pwr = pw.rotate(theta2);
+                            var pwr = pw.rotate(theta);
                             x = pwr.x();
                             y = pwr.y();
                         }

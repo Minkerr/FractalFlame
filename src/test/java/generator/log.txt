@@ -1,0 +1,18 @@
+points peaks: 100000; iterations: 300    7.22   2.13
+                                         0.54   0.13
+points peaks: 100000; iterations: 400    9.44   2.53
+                                         0.94   0.6
+points peaks: 100000; iterations: 500    11.11   2.55
+                                         0.64   0.17
+points peaks: 200000; iterations: 300    13.12   3.15
+                                         0.44   0.16
+points peaks: 200000; iterations: 400    17.54   4.18
+                                         1.02   0.53
+points peaks: 200000; iterations: 500    21.80   5.16
+                                         0.65   0.41
+points peaks: 300000; iterations: 300    19.82   4.86
+                                         1.15   0.3
+points peaks: 300000; iterations: 400    26.24   6.08
+                                         1.25   0.42
+points peaks: 300000; iterations: 500    32.40   7.89
+                                         1.26   0.49
